@@ -436,9 +436,9 @@ section {
 
 .detail-item {
     display: flex;
-    align-items: center;
+    align-items: left;
     gap: 1rem;
-    justify-content: space-between;
+    justify-content: left;
     flex-wrap: wrap;
     padding: 1rem;
     background: var(--bg-card);
@@ -463,7 +463,7 @@ section {
     padding: 0.5rem 1.25rem;
     border-radius: 999px;
     display: inline-flex;
-    align-items: center;
+    align-items: left;
     gap: 0.5rem;
     font-size: 0.95rem;
 }

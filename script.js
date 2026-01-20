@@ -65,30 +65,68 @@ function highlightNavigation() {
 
 window.addEventListener('scroll', highlightNavigation);
 
-// Form submission handler
+// Form submission handler (send to server to store in MySQL)
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        // Get form values
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const subject = document.getElementById('subject').value;
-        const message = document.getElementById('message').value;
-        
-        // Create mailto link
-        const mailtoLink = `mailto:peterkamunyu97@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
-        
-        // Open email client
-        window.location.href = mailtoLink;
-        
-        // Reset form
-        contactForm.reset();
-        
-        // Show success message (optional)
-        alert('Thank you for your message! Your email client should open shortly.');
+
+        const formMessage = document.getElementById('formMessage');
+
+        // Collect form values
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const subject = document.getElementById('subject').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        // Basic client-side validation
+        if (!name || !email || !subject || !message) {
+            if (formMessage) formMessage.textContent = 'Please fill in all fields.';
+            return;
+        }
+
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('subject', subject);
+        formData.append('message', message);
+
+        try {
+            const resp = await fetch('save_contact.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await resp.json();
+
+            if (resp.ok && result.success) {
+                if (formMessage) {
+                    formMessage.textContent = 'Message sent — thank you!';
+                    formMessage.classList.add('success');
+                } else {
+                    alert('Message sent — thank you!');
+                }
+                contactForm.reset();
+            } else {
+                const err = result.error || 'Server error — please try again later.';
+                if (formMessage) {
+                    formMessage.textContent = err;
+                    formMessage.classList.add('error');
+                } else {
+                    alert(err);
+                }
+            }
+        } catch (error) {
+            if (formMessage) {
+                formMessage.textContent = 'Network error — please try again later.';
+                formMessage.classList.add('error');
+            } else {
+                alert('Network error — please try again later.');
+            }
+            console.error('Contact form error:', error);
+        }
     });
 }
 
