@@ -1639,13 +1639,7 @@ section {
     /* Optional: add a little margin if it's too close to the edge */
     margin-right: 10px; 
 }
-.hamburger {
-    display: flex; /* Ensure it's visible on mobile */
-    z-index: 1001; /* Must be higher than navbar */
-    position: relative;
-    padding: 10px; /* Makes the "hit area" larger and easier to click */
-    cursor: pointer;
-}
+
 .logo-link {
     text-decoration: none;
     display: flex;
@@ -1656,4 +1650,62 @@ section {
 
 .logo-link:hover {
     transform: scale(1.1); /* Subtle pop effect when hovering */
+}
+
+/* ========================================= */
+/* FINAL RESPONSIVE NAVIGATION         */
+/* ========================================= */
+
+/* 1. DESKTOP DEFAULT: Hide Hamburger, Show Menu */
+.hamburger {
+    display: none; /* Hidden on big screens */
+}
+
+.nav-menu {
+    display: flex; /* Visible on big screens */
+}
+
+/* 2. MOBILE OVERRIDES (Screens smaller than 968px) */
+@media (max-width: 968px) {
+    
+    /* Show the Hamburger */
+    .hamburger {
+        display: flex;
+        z-index: 1001;
+        position: relative;
+        padding: 10px;
+        cursor: pointer;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    /* Hide the Menu (push it off screen) */
+    .nav-menu {
+        position: fixed;
+        left: -100%;        /* Hides menu off to the left */
+        top: 70px;          /* Pushes it below the navbar */
+        flex-direction: column;
+        background: var(--bg-dark);
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+        padding: 2rem 0;
+    }
+
+    /* When JavaScript adds the 'active' class, slide it in */
+    .nav-menu.active {
+        left: 0;
+    }
+    
+    /* Make the X animation work */
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
 }
