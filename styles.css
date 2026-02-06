@@ -61,6 +61,20 @@ section li {
         justify-content: center;
     }
 }
+/* Add this above your @media queries */
+@media (min-width: 969px) {
+    .nav-menu {
+        position: static !important;
+        left: 0 !important;
+        display: flex !important;
+        flex-direction: row !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        width: auto !important;
+    }
+}
+
 
 .container {
     max-width: 1200px;
@@ -1608,5 +1622,38 @@ section {
     .timeline-content {
         padding: 1rem;
     }
+    
 }
 
+/* Update this specific part in your CSS */
+.nav-brand {
+    display: flex;
+    align-items: center; /* Changed from 'left' to 'center' to align with text */
+    justify-content: flex-start;
+}
+
+.brand-logo {
+    height: 40px; 
+    width: auto;
+    display: block;
+    /* Optional: add a little margin if it's too close to the edge */
+    margin-right: 10px; 
+}
+.hamburger {
+    display: flex; /* Ensure it's visible on mobile */
+    z-index: 1001; /* Must be higher than navbar */
+    position: relative;
+    padding: 10px; /* Makes the "hit area" larger and easier to click */
+    cursor: pointer;
+}
+.logo-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.logo-link:hover {
+    transform: scale(1.1); /* Subtle pop effect when hovering */
+}
